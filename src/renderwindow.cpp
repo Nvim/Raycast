@@ -4,13 +4,14 @@
 #include "../include/RenderWindow.hpp"
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_opengl.h>
 #include <iostream>
 
 RenderWindow::RenderWindow(const char* p_title, int p_w, int p_h)
     :window(NULL), renderer(NULL)
 {
 
-    window = SDL_CreateWindow(p_title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, p_w, p_h, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(p_title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, p_w, p_h, SDL_WINDOW_SHOWN);
 
     if (window == NULL)
     {
@@ -18,6 +19,15 @@ RenderWindow::RenderWindow(const char* p_title, int p_w, int p_h)
     }
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+    if (renderer == NULL)
+    {
+        std::cout << "Renderer failed: " << SDL_GetError() << std::endl;
+    }
+    else
+    {
+        std::cout << "Render W" << std::endl;
+    }
 
 }
 
@@ -42,5 +52,7 @@ void RenderWindow::display()
 
 void RenderWindow::cleanUp()
 {
+    SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);  
+    std::cout << "Cleanup done" << std::endl;
 }

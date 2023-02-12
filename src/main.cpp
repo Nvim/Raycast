@@ -38,11 +38,11 @@ int main(int argc, char **argv)
     SDL_Rect *rect = new SDL_Rect;
     rect->y = 50;
     rect->x = 100;
-    rect->w = 150;
-    rect->h = 75;
+    rect->w = 400;
+    rect->h = 120;
 
     window.clear();
-    window.renderRectangle(rect, 255, 255, 0, 255);
+    window.renderRectangle(rect, 255, 0, 255, 255);
     window.display();
     window.clear();
 
