@@ -19,10 +19,20 @@ int main(int argc, char **argv)
     }
 
     RenderWindow window("GAME", 800, 600);
-    window.clear();
 
     SDL_Event event;
     bool gameRunning = true;
+
+    SDL_Rect *rect = new SDL_Rect;
+    rect->y = 50;
+    rect->x = 100;
+    rect->w = 400;
+    rect->h = 120;
+
+    window.clear();
+    window.renderRectangle(rect, 0, 0, 255, 255);
+    window.display();
+    window.clear();
 
     while(gameRunning)
     {
@@ -34,17 +44,6 @@ int main(int argc, char **argv)
             }
         }
     }
-
-    SDL_Rect *rect = new SDL_Rect;
-    rect->y = 50;
-    rect->x = 100;
-    rect->w = 400;
-    rect->h = 120;
-
-    window.clear();
-    window.renderRectangle(rect, 255, 0, 255, 255);
-    window.display();
-    window.clear();
 
 
     window.cleanUp();
