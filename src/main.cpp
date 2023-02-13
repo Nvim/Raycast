@@ -3,7 +3,7 @@
 #include <SDL2/SDL_rect.h>
 #include <iostream>
 #include "../include/RenderWindow.hpp"
-
+#include "../include/Map.hpp"
 
 
 int main(int argc, char **argv)
@@ -19,18 +19,16 @@ int main(int argc, char **argv)
     }
 
     RenderWindow window("GAME", 800, 600);
-
+    s_Color colors = {100, 0, 255, 255};
+    Map map(&window, &colors, 25);
     SDL_Event event;
     bool gameRunning = true;
 
-    SDL_Rect *rect = new SDL_Rect;
-    rect->y = 50;
-    rect->x = 100;
-    rect->w = 400;
-    rect->h = 120;
-
+    
     window.clear();
-    window.renderRectangle(rect, 0, 0, 255, 255);
+
+    map.drawMap();
+
     window.display();
     window.clear();
 

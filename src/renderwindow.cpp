@@ -37,6 +37,11 @@ void RenderWindow::renderRectangle(SDL_Rect *rect, Uint8 r, Uint8 g, Uint8 b, Ui
     {
         std::cout << "Erreur Creation Rectangle: " << SDL_GetError() << std::endl;
     }
+
+    // if (SDL_RenderFillRect(renderer, rect) < 0)
+    // {
+    //     std::cout << "Erreur Fill Rectangle: " << SDL_GetError() << std::endl;
+    // }
 }
 
 void RenderWindow::clear()
