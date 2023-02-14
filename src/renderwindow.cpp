@@ -30,18 +30,23 @@ RenderWindow::RenderWindow(const char* p_title, int p_w, int p_h)
 
 }
 
-void RenderWindow::renderRectangle(SDL_Rect *rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+void RenderWindow::renderRectangle(SDL_Rect *rect, s_Color *colors)
 {
-    SDL_SetRenderDrawColor(renderer, r, g, b, a);
+    SDL_SetRenderDrawColor(renderer, colors->r, colors->g, colors->b, colors->a);
     if ( SDL_RenderDrawRect(renderer, rect) < 0)
     {
         std::cout << "Erreur Creation Rectangle: " << SDL_GetError() << std::endl;
     }
 
-    // if (SDL_RenderFillRect(renderer, rect) < 0)
-    // {
-    //     std::cout << "Erreur Fill Rectangle: " << SDL_GetError() << std::endl;
-    // }
+}
+
+void RenderWindow::renderFilledRectangle(SDL_Rect *rect, s_Color *colors)
+{
+    SDL_SetRenderDrawColor(renderer, colors->r, colors->g, colors->b, colors->a);
+    if (SDL_RenderFillRect(renderer, rect) < 0)
+    {
+        std::cout << "Erreur Fill Rectangle: " << SDL_GetError() << std::endl;
+    }
 }
 
 void RenderWindow::clear()

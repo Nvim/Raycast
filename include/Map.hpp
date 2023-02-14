@@ -4,6 +4,10 @@
 #include <SDL2/SDL_image.h>
 #include <cstdint>
 
+#define WALLSIZE 30
+#define INIT_X 50
+#define INIT_Y 50
+
 const int mapSize = 64;
 const int mapCols = 8;
 const int mapLines = 8;

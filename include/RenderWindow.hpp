@@ -17,7 +17,8 @@ class RenderWindow
        RenderWindow(const char* p_title, int p_w, int p_h); 
        void cleanUp();
        void clear();
-       void renderRectangle(SDL_Rect *rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+       void renderRectangle(SDL_Rect *rect, s_Color *colors);
+       void renderFilledRectangle(SDL_Rect *rect, s_Color *colors);
        void display();
 
     private:

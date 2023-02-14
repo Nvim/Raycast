@@ -13,25 +13,22 @@ Map::Map(RenderWindow *p_win, s_Color *p_color, uint8_t p_wallsize)
 
 void Map::drawMap()
 {
-    int init_x = 100, init_y = 100;
-    int i;
+    int i, j;
 
     SDL_Rect rect;
     rect.h = wallsize;
     rect.w = wallsize;
-    rect.x = init_x;
-    rect.y = init_y;
 
     for (i = 0; i< mapLines; i++)
     {
-        for (int j = 0; j<mapCols; j++)
+        for ( j = 0; j<mapCols; j++)
         {
             if (map[8*i + j] == 1)
             {
-                rect.x = init_x + 25*j; //25*mapCols en gros
-                rect.y = init_y + 25*i; //25*mapLines
+                rect.x = INIT_X + wallsize*j; //25*mapCols en gros
+                rect.y = INIT_Y + wallsize*i; //25*mapLines
 
-                window->renderRectangle(&rect, color->r, color->g, color->b, color->a);
+                window->renderRectangle(&rect, color);
             }
         }
     }
