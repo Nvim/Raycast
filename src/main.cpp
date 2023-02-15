@@ -43,18 +43,12 @@ int main(int argc, char **argv)
 
 /****************************************************************************************************/
     
-    window.clear();
-    map.drawMap();
-    window.renderFilledRectangle(&playerSprite, &playerColors);
-    window.display();
-
-    std::cout << "Player Position: (" << playerPos->x << ", " << playerPos->y << ")" << std::endl;
 
     while(gameRunning)
     {
         while(SDL_PollEvent(&event))
         {
-            if(event.type == SDL_QUIT)
+            if(event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
             {
                 gameRunning = false;
                 break;
@@ -89,6 +83,13 @@ int main(int argc, char **argv)
                 default:
                     continue;
             }
+
+            playerSprite.x = playerPos->x;
+            playerSprite.y = playerPos->y;
+            window.clear();
+            map.drawMap();
+            window.renderFilledRectangle(&playerSprite, &playerColors);
+            window.display();
         }
     }
 

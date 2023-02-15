@@ -18,14 +18,17 @@ void Player::getPos(s_PlayerPos * playerPos)
 
 void Player::movePlayer(int p_x, int p_y)
 {
-    playerX += p_x;
     playerY += p_y;
+    playerX += p_x;
+
+    std::cout << xyToIndex(playerY, playerX ) << std::endl;
 
    //vérification que le joueur est dans la map 
-   if ( map[ (playerX - INIT_X) / WALLSIZE ] == 0)
-   {
-       std::cout << "WALL!" << std::endl;
-   }
+   // if ( map[ xyToIndex(playerX + p_x, playerY + p_y) / mapCols ] == 1)
+   // {
+   //     std::cout << "WALL!" << std::endl;
+   //     playerX += p_x;
+   // }
 }
 
 

@@ -51,6 +51,7 @@ void RenderWindow::renderFilledRectangle(SDL_Rect *rect, s_Color *colors)
 
 void RenderWindow::clear()
 {
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 }
 
