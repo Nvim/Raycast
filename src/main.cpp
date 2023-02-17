@@ -21,74 +21,67 @@ int main(int argc, char **argv)
 
 /****************************************************************************************************/
 
-    s_Color colors = {100, 0, 255, 255};
-    s_PlayerPos * playerPos = new s_PlayerPos;
+    s_Color mapColors = {200, 200, 200, 255};
     
     RenderWindow window("GAME", 800, 600);
-    Map map(&window, &colors, WALLSIZE);
+    Map map(&window, &mapColors, WALLSIZE);
+
     Player player(INIT_X + 2*WALLSIZE, INIT_Y + 2*WALLSIZE);
-    player.getPos(playerPos);
     
     SDL_Event event;
     bool gameRunning = true;
 
     SDL_Rect playerSprite;
-    playerSprite.x = playerPos->x;
-    playerSprite.y = playerPos->y;
-    playerSprite.h = 5;
-    playerSprite.w = 5;
 
     s_Color playerColors = {0, 255, 0, 255};
 
-
 /****************************************************************************************************/
     
+    window.clear();
+    map.drawMap();
+    player.drawPlayer(&window, &playerSprite, &playerColors);
+    window.display();
 
     while(gameRunning)
     {
         while(SDL_PollEvent(&event))
         {
-            if(event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
-            {
-                gameRunning = false;
-                break;
-            }
-            
             switch(event.key.keysym.sym)
             {
+                case SDL_QUIT:
+                case SDLK_ESCAPE:
+                    gameRunning = false;
+                    break;
+
                 case SDLK_d:
                     player.movePlayer(PLAYER_SPEED, 0);
-                    player.getPos(playerPos);
-                    std::cout << "Player Position: (" << playerPos->x << ", " << playerPos->y << ")" << std::endl;
                     break;
 
                 case SDLK_q:
                     player.movePlayer(-PLAYER_SPEED, 0);
-                    player.getPos(playerPos);
-                    std::cout << "Player Position: (" << playerPos->x << ", " << playerPos->y << ")" << std::endl;
                     break;
 
                 case SDLK_s:
                     player.movePlayer(0, PLAYER_SPEED);
-                    player.getPos(playerPos);
-                    std::cout << "Player Position: (" << playerPos->x << ", " << playerPos->y << ")" << std::endl;
                     break;
 
-                case SDLK_z:
+                case SDLK_z: 
                     player.movePlayer(0, -PLAYER_SPEED);
-                    player.getPos(playerPos);
-                    std::cout << "Player Position: (" << playerPos->x << ", " << playerPos->y << ")" << std::endl;
+                    break;
+                case SDLK_RIGHT:
+                    player.rotatePlayer(RIGHT);
+                    break;
+                case SDLK_LEFT:
+                    player.rotatePlayer(LEFT);
                     break;
 
                 default:
                     continue;
             }
 
-            playerSprite.x = playerPos->x;
-            playerSprite.y = playerPos->y;
             window.clear();
             map.drawMap();
-            window.renderFilledRectangle(&playerSprite, &playerColors);
+            player.drawPlayer(&window, &playerSprite, &playerColors);
             window.display();
         }
     }

@@ -11,6 +11,7 @@ typedef struct Color
     Uint8 a;
 } s_Color;
 
+
 class RenderWindow
 {
     public:
@@ -19,6 +20,7 @@ class RenderWindow
        void clear();
        void renderRectangle(SDL_Rect *rect, s_Color *colors);
        void renderFilledRectangle(SDL_Rect *rect, s_Color *colors);
+       void renderLine(s_Color *colors, int x1, int y1, int x2, int y2);
        void display();
 
     private:

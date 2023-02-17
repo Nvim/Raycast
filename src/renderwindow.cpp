@@ -7,6 +7,8 @@
 #include <SDL2/SDL_opengl.h>
 #include <iostream>
 
+s_Color bgColor = {40, 40, 40, 255};
+
 RenderWindow::RenderWindow(const char* p_title, int p_w, int p_h)
 {
 
@@ -15,6 +17,7 @@ RenderWindow::RenderWindow(const char* p_title, int p_w, int p_h)
     if (window == NULL)
     {
         std::cout << "Window failed to init, Error: " << SDL_GetError() << std::endl;
+        return;
     }
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -22,12 +25,10 @@ RenderWindow::RenderWindow(const char* p_title, int p_w, int p_h)
     if (renderer == NULL || renderer == nullptr)
     {
         std::cout << "Renderer failed: " << SDL_GetError() << std::endl;
-    }
-    else
-    {
-        std::cout << "Render W" << std::endl;
+        return;
     }
 
+     SDL_SetRenderDrawColor(renderer, bgColor.r, bgColor.g, bgColor.b, 255);
 }
 
 void RenderWindow::renderRectangle(SDL_Rect *rect, s_Color *colors)
@@ -49,9 +50,18 @@ void RenderWindow::renderFilledRectangle(SDL_Rect *rect, s_Color *colors)
     }
 }
 
+void RenderWindow::renderLine(s_Color *colors, int x1, int y1, int x2, int y2)
+{
+    SDL_SetRenderDrawColor(renderer, colors->r, colors->g, colors->b, colors->a);
+    if (SDL_RenderDrawLine(renderer, x1, y1, x2, y2))
+    {
+        std::cout << "Erreur Draw Line: " << SDL_GetError() << std::endl;
+    }
+}
+
 void RenderWindow::clear()
 {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(renderer, bgColor.r, bgColor.g, bgColor.b, 255);
     SDL_RenderClear(renderer);
 }
 
