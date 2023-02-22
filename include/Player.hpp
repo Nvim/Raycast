@@ -7,14 +7,19 @@
 #define PI 3.1415926535
 #define LEFT 0
 #define RIGHT 1
+#define UP 2
+#define DOWN 3
 
 #define PLAYER_SPEED 5
-#define PLAYER_SIZE 10
+#define PLAYER_SIZE 5
 
 typedef struct playerPos
 {
     int x;
     int y;
+    float angle;
+    float deltaX;
+    float deltaY;
 } s_PlayerPos;
 
 class Player

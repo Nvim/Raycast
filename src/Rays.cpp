@@ -1,23 +1,33 @@
 #include "../include/Rays.hpp"
+#include "../include/Player.hpp"
+#include "../include/Map.hpp"
 
+s_Color downColors = {0, 255, 0, 255};
+s_Color upColors = {255, 0, 0, 255};
 
-Rays::Rays(int playerAngle)
+void Rays::drawRays(RenderWindow *window, s_PlayerPos *playerPos)
 {
-    rayAngle = playerAngle;
-}
 
-void Rays::drawRays(RenderWindow *window)
-{
-    int i;
-    float aTan;
-    
+    int facing;
+    int dy = playerPos->deltaY;
+    s_Color lineColors;
 
-    for (i = 0; i<1; i++)
+    if (dy < 0)
     {
-        aTan = -1/tan(rayAngle);
-        
-        //horizontal rays:
-        //look if ray is up or down with pi
-        //faut tous les bails du player ça me clc
+        facing = UP;
+        lineColors = upColors; 
     }
+    
+    else
+    {
+        facing = DOWN;
+        lineColors = downColors;
+    }
+
+    while(map[xyToIndex(playerPos->deltaX, dy)] != 1)
+    {
+        dy = dy+dy;
+    }
+    
+    window->renderLine(&lineColors, playerPos->x, playerPos->y, playerPos->x+ playerPos->deltaX, playerPos->y+dy);  
 }

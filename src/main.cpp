@@ -6,6 +6,7 @@
 #include "../include/RenderWindow.hpp"
 #include "../include/Map.hpp"
 #include "../include/Player.hpp"
+#include "../include/Rays.hpp"
 
 int main(int argc, char **argv)
 {
@@ -35,11 +36,18 @@ int main(int argc, char **argv)
 
     s_Color playerColors = {0, 255, 0, 255};
 
+    s_PlayerPos playerPos;
+    player.getPos(&playerPos);
+
+    Rays ray;
+
 /****************************************************************************************************/
     
     window.clear();
     map.drawMap();
     player.drawPlayer(&window, &playerSprite, &playerColors);
+    ray.drawRays(&window, &playerPos);
+
     window.display();
 
     while(gameRunning)
@@ -82,6 +90,8 @@ int main(int argc, char **argv)
             window.clear();
             map.drawMap();
             player.drawPlayer(&window, &playerSprite, &playerColors);
+            player.getPos(&playerPos);
+            ray.drawRays(&window, &playerPos);
             window.display();
         }
     }

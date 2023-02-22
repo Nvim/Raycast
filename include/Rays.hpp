@@ -1,5 +1,6 @@
 #pragma once
 #include "RenderWindow.hpp"
+#include "Player.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <math.h>
@@ -13,6 +14,5 @@ class Rays
         float rayAngle;
 
     public:
-        Rays(int playerAngle);
-        void drawRays(RenderWindow *window);
+        void drawRays(RenderWindow *window, s_PlayerPos *playerPos);
 };

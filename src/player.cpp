@@ -17,6 +17,9 @@ void Player::getPos(s_PlayerPos * playerPos)
 {
     playerPos->x = playerX;
     playerPos->y = playerY;
+    playerPos->angle = playerAngle;
+    playerPos->deltaX = playerDeltaX;
+    playerPos->deltaY = playerDeltaY;
 }
 
 void Player::movePlayer(int p_x, int p_y)
@@ -51,6 +54,7 @@ void Player::rotatePlayer(int direction)
         playerDeltaX = cos(playerAngle)*5;
         playerDeltaY = sin(playerAngle)*5;
     }
+    std::cout << "Player Angle: " << playerAngle << std::endl;
 }
 
 void Player::drawPlayer( RenderWindow *window, SDL_Rect * playerSprite, s_Color * playerColors)
@@ -60,8 +64,6 @@ void Player::drawPlayer( RenderWindow *window, SDL_Rect * playerSprite, s_Color 
     playerSprite->h = PLAYER_SIZE;
     playerSprite->w = PLAYER_SIZE;
     window->renderFilledRectangle(playerSprite, playerColors);
-    // window->renderLine(playerColors, playerX, playerY, playerX+6, playerY+6);  
-    window->renderLine(playerColors, playerX, playerY, playerX+playerDeltaX*5, playerY+playerDeltaY*5);  
 }
 
 
