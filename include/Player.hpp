@@ -15,8 +15,8 @@
 
 typedef struct playerPos
 {
-    int x;
-    int y;
+    float x;
+    float y;
     float angle;
     float deltaX;
     float deltaY;
@@ -25,7 +25,7 @@ typedef struct playerPos
 class Player
 {
     public:
-        Player(const int p_x, const int p_y);
+        Player(const float p_x, const float p_y);
         void getPos(s_PlayerPos * playerPos);
         void movePlayer(int p_x, int p_y);
         void rotatePlayer(int direction);
@@ -33,8 +33,8 @@ class Player
 
     private:
 
-        int playerX;
-        int playerY;
+        float playerX;
+        float playerY;
         float playerDeltaX;
         float playerDeltaY;
         float playerAngle;

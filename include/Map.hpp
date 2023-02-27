@@ -4,7 +4,7 @@
 #include <SDL2/SDL_image.h>
 #include <cstdint>
 
-#define WALLSIZE 30
+#define WALLSIZE 32
 #define INIT_X 0
 #define INIT_Y 0
 

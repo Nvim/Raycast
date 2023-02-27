@@ -27,7 +27,7 @@ int main(int argc, char **argv)
     RenderWindow window("GAME", 800, 600);
     Map map(&window, &mapColors, WALLSIZE);
 
-    Player player(INIT_X + 2*WALLSIZE, INIT_Y + 2*WALLSIZE);
+    Player player(float(INIT_X + 2*WALLSIZE), float(INIT_Y + 2*WALLSIZE));
     
     SDL_Event event;
     bool gameRunning = true;
@@ -39,14 +39,15 @@ int main(int argc, char **argv)
     s_PlayerPos playerPos;
     player.getPos(&playerPos);
 
-    Rays ray;
+    Rays ray(&window);
 
 /****************************************************************************************************/
     
     window.clear();
     map.drawMap();
     player.drawPlayer(&window, &playerSprite, &playerColors);
-    ray.drawRays(&window, &playerPos);
+    ray.drawRays(&playerPos);
+    // ray.drawSimpleRay(&playerPos);
 
     window.display();
 
@@ -91,7 +92,8 @@ int main(int argc, char **argv)
             map.drawMap();
             player.drawPlayer(&window, &playerSprite, &playerColors);
             player.getPos(&playerPos);
-            ray.drawRays(&window, &playerPos);
+            ray.drawRays(&playerPos);
+            // ray.drawSimpleRay(&playerPos);
             window.display();
         }
     }

@@ -10,9 +10,12 @@
 class Rays
 {
     private:
-        int rayX, rayY, xOffset, yOffset;
-        float rayAngle;
+        float xStep, yStep, xNearest, yNearest;
+        float rayX, rayY;
+        RenderWindow *window;
 
     public:
-        void drawRays(RenderWindow *window, s_PlayerPos *playerPos);
+        Rays(RenderWindow *p_window);
+        void drawSimpleRay(s_PlayerPos *playerPos);
+        void drawRays(s_PlayerPos *playerPos);
 };

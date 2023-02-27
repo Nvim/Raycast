@@ -4,11 +4,11 @@
 #include "../include/Player.hpp"
 #include "../include/Map.hpp"
 
-Player::Player(const int p_x, const int p_y)
+Player::Player(const float p_x, const float p_y)
 {
     playerX = p_x;
     playerY = p_y;
-    playerAngle = PI;
+    playerAngle = PI/4;
     playerDeltaX = cos(playerAngle)*5;
     playerDeltaY = sin(playerAngle)*5;
 }
@@ -54,7 +54,7 @@ void Player::rotatePlayer(int direction)
         playerDeltaX = cos(playerAngle)*5;
         playerDeltaY = sin(playerAngle)*5;
     }
-    std::cout << "Player Angle: " << playerAngle << std::endl;
+    std::cout << "Angle: " << playerAngle << std::endl;
 }
 
 void Player::drawPlayer( RenderWindow *window, SDL_Rect * playerSprite, s_Color * playerColors)
