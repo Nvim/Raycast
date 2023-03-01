@@ -41,7 +41,7 @@ bool lookUp(s_PlayerPos *playerPos)
 
 bool lookRight(s_PlayerPos *playerPos)
 {
-    if (playerPos->angle < PI/2 && playerPos->angle > 3*(PI/2) )
+    if (!(playerPos->angle > PI/2 && playerPos->angle < 3*PI/2))
     {
         return true;
     }
@@ -83,7 +83,7 @@ void Rays::drawRays(s_PlayerPos *playerPos)
     if (aTan != 0)
     {
         //calculations:
-        yNearest = -(playerY - (playerY / WALLSIZE) * WALLSIZE);
+        yNearest = -(playerY - (int)(playerY / WALLSIZE) * WALLSIZE);
         if (!lookUp(playerPos))
         {
             yNearest += WALLSIZE; 
@@ -106,20 +106,19 @@ void Rays::drawRays(s_PlayerPos *playerPos)
         {
 
             ix = int(rayX / WALLSIZE);
-            iy = int(rayY / WALLSIZE) -1;
+            iy = int(rayY / WALLSIZE);
 
-            if (!lookUp(playerPos))
+            if (lookUp(playerPos))
             {
-                iy+=1;
+                iy -=1;
             }
 
-            if (ix < 0 || iy < 0 || ix > mapSize || iy > mapSize)
+            if (ix < 0 || iy < 0 || ix > 8 || iy > 8)
             {
-                std::cout << "mskn" << std::endl;
                 break;
             }
 
-            if (map[ xyToIndex(rayY, rayX) ] == 1)
+            if (map[ xyToIndex(iy, ix) ] == 1)
             {
                 horizontal = true;
                 break;
@@ -134,17 +133,17 @@ void Rays::drawRays(s_PlayerPos *playerPos)
     /* VERTICAL CHECKING */
     if (aTan != 1)
     {
-        xNearest = -(playerX - (playerX / WALLSIZE) * WALLSIZE);
+        xNearest = -(playerX - (int)(playerX / WALLSIZE) * WALLSIZE);
         if (lookRight(playerPos))
-            xNearest = WALLSIZE + xNearest;
+            xNearest += WALLSIZE;
 
-        yNearest = aTan * xNearest;
+        yNearest = tan(playerAngle)*xNearest;
 
-        xStep = -WALLSIZE;
-        if (lookRight(playerPos))
-            xStep = - xStep;
+        xStep = WALLSIZE;
+        if (!lookRight(playerPos))
+            xStep = -xStep;
 
-        yStep = aTan * xStep;
+        yStep = tan(playerAngle)*xStep;
 
         rayX = playerX + xNearest;
         rayY = playerY + yNearest;
@@ -157,25 +156,24 @@ void Rays::drawRays(s_PlayerPos *playerPos)
 
             if(lookRight(playerPos))
             {
-                ix +=1;
+                ix += 1;
             }
 
-            if (ix < 0 || iy < 0 || ix > mapSize || iy > mapSize)
+            if (ix < 0 || iy < 0 || ix > 8 || iy > 8)
             {
-                std::cout << "mskn" << std::endl;
-                break;
             }
 
-            if (map[ xyToIndex(rayY, rayX) ] == 1)
+            else if (map[ xyToIndex(iy, ix) ] == 1)
             {
                 
                 vertical = true;
+                window->renderLine(&downColors, playerX, playerY, rayX, rayY);
                 break;
             }
 
             rayX += xStep;
             rayY += yStep;
         }
-        window->renderLine(&downColors, playerX, playerY, rayX, rayY);
+
     }
 }

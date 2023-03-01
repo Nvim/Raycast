@@ -28,7 +28,6 @@ void Player::movePlayer(int p_x, int p_y)
     {
         playerX += p_x;
         playerY += p_y;
-        // std::cout << "map[ " << xyToIndex((playerY/WALLSIZE), (playerX/WALLSIZE)) << " ] == 0" << std::endl; 
     }
 }
 
@@ -64,6 +63,7 @@ void Player::drawPlayer( RenderWindow *window, SDL_Rect * playerSprite, s_Color 
     playerSprite->h = PLAYER_SIZE;
     playerSprite->w = PLAYER_SIZE;
     window->renderFilledRectangle(playerSprite, playerColors);
+    window->renderLine(playerColors, playerX, playerY, playerDeltaX, playerDeltaY);
 }
 
 
