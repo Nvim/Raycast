@@ -7,6 +7,11 @@
 
 #define DEPTH 8
 
+typedef struct point{
+    float x;
+    float y;
+} s_Point;
+
 class Rays
 {
     private:
@@ -16,6 +21,7 @@ class Rays
 
     public:
         Rays(RenderWindow *p_window);
-        void drawSimpleRay(s_PlayerPos *playerPos);
-        void drawRays(s_PlayerPos *playerPos);
+        float getLength(s_PlayerPos *playerPos);
+        s_Point * castRay(s_PlayerPos *playerPos);
+        void drawRay(s_PlayerPos *playerPos);
 };

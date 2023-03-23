@@ -48,6 +48,7 @@ bool lookRight(s_PlayerPos *playerPos)
     return false;
 }
 
+
 Rays::Rays(RenderWindow *p_window)
 {
     this->window = p_window; 
@@ -59,15 +60,40 @@ Rays::Rays(RenderWindow *p_window)
     yStep = 0;
 }
 
-void Rays::drawSimpleRay(s_PlayerPos *playerPos)
+//uses playerpos & rayX/Y => no args ?
+float Rays::getLength(s_PlayerPos *playerPos)
 {
-    s_Color lineColors = {0, 100, 200, 255};
-    rayY = playerPos->deltaY;
-    rayX = playerPos->deltaX;
-    window->renderLine(&lineColors, playerPos->x, playerPos->y, playerPos->x + rayX, playerPos->y + rayY);  
+    float length;
+    float x_x, x_y; //point arbitraire pour pythagore
+    float px, xr;
+
+    x_x = rayX;
+    x_y = playerPos->y;
+
+    if (x_x > playerPos->x)
+    {
+        px = x_x - playerPos->x;
+    }
+    else
+    {
+        px = playerPos->x - x_x;
+    }
+
+    if (x_y > playerPos->y)
+    {
+        xr = x_y - playerPos->y;
+    }
+    else
+    {
+        xr = playerPos->y - x_y;
+    }
+
+    length = sqrt((px*px)+(xr*xr));
+    return length;
+
 }
 
-void Rays::drawRays(s_PlayerPos *playerPos)
+s_Point * Rays::castRay(s_PlayerPos *playerPos)
 {
     float playerX = playerPos->x;
     float playerY = playerPos->y;
@@ -77,25 +103,27 @@ void Rays::drawRays(s_PlayerPos *playerPos)
     int DOF = 10;
     int ix, iy;
     bool horizontal = false, vertical = false;
+    float hDist = -1.0, vDist = -1.0;
+    float hRayX = -1.0, hRayY = -1.0;
 
 
     /* HORIZONTAL CHECKING */
     if (aTan != 0)
     {
         //calculations:
-        yNearest = -(playerY - (int)(playerY / WALLSIZE) * WALLSIZE);
+        yNearest = -(playerY - (int)(playerY / WALLSIZE) * WALLSIZE); //valeur négative, on doit y ajouter wallsize si on regarde vers le haut
         if (!lookUp(playerPos))
         {
             yNearest += WALLSIZE; 
         }
-        xNearest = yNearest/tan(playerAngle);
+        xNearest = -yNearest/tan(playerAngle); //tan(angle) varie entre -infini et infini, racines = 0, PI, 2PI.
 
-        yStep = -WALLSIZE;
+        yStep = -WALLSIZE; //valeur négative, si on regarde vers le bas, elle doit être positive.
         if (!lookUp(playerPos))
         {
-            yStep = -yStep; 
+            yStep = WALLSIZE; 
         }
-        xStep = yStep/tan(playerAngle);
+        xStep = -yStep/tan(playerAngle);
 
         //setting rayX & rayY and incrementing until wall:
             rayX = playerX + xNearest;
@@ -121,13 +149,15 @@ void Rays::drawRays(s_PlayerPos *playerPos)
             if (map[ xyToIndex(iy, ix) ] == 1)
             {
                 horizontal = true;
+                window->renderLine(&upColors, playerPos->x, playerPos->y, rayX, rayY);
                 break;
             }
 
             rayX += xStep;
             rayY += yStep;
         }
-        window->renderLine(&upColors, playerX, playerY, rayX, rayY);
+        hDist = getLength(playerPos);
+        hRayX = rayX, hRayY = rayY;
     }
 
     /* VERTICAL CHECKING */
@@ -146,7 +176,7 @@ void Rays::drawRays(s_PlayerPos *playerPos)
         yStep = tan(playerAngle)*xStep;
 
         rayX = playerX + xNearest;
-        rayY = playerY + yNearest;
+        rayY = playerY - yNearest;
 
         for (int i = 0; i < DOF; i++)
         {
@@ -167,13 +197,39 @@ void Rays::drawRays(s_PlayerPos *playerPos)
             {
                 
                 vertical = true;
-                window->renderLine(&downColors, playerX, playerY, rayX, rayY);
+                window->renderLine(&downColors, playerPos->x, playerPos->y, rayX, rayY);
                 break;
             }
 
             rayX += xStep;
-            rayY += yStep;
+            rayY -= yStep;
         }
-
+        vDist = getLength(playerPos);
     }
+
+    s_Point *point;
+
+    /* COMPARAISON */
+    // if (hDist > vDist)
+    // {
+    //     point->x = hRayX;
+    //     point->y = hRayY;
+    //     return point;
+    // }
+    // else 
+    // {
+    //     point->x = rayX;
+    //     point->y = rayY;
+    //     return point;
+    // }
+    point->x = 0;
+    point->y = 0;
+    return point;
+}
+
+void Rays::drawRay(s_PlayerPos *playerPos)
+{
+    s_Point *point;
+    point = castRay(playerPos);
+    // window->renderLine(&downColors, playerPos->x, playerPos->y, point->x, point->y);
 }
