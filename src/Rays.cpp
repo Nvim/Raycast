@@ -1,6 +1,7 @@
 #include "../include/Rays.hpp"
 #include "../include/Map.hpp"
 #include "../include/Player.hpp"
+#include <cstdio>
 #include <iostream>
 #include <math.h>
 
@@ -78,20 +79,19 @@ s_Point *Rays::castRay(s_PlayerPos *playerPos) {
   float playerX = playerPos->x;
   float playerY = playerPos->y;
   float playerAngle = playerPos->angle;
-  s_Color lineColors = {0, 100, 200, 255};
   float aTan = tan(playerAngle);
   int DOF = 10;
   int ix, iy;
-  bool horizontal = false, vertical = false;
+  // bool horizontal = false, vertical = false;
   float hDist = -1.0, vDist = -1.0;
   float hRayX = -1.0, hRayY = -1.0;
 
   /* HORIZONTAL CHECKING */
   if (aTan != 0) {
     // calculations:
-    yNearest = -(playerY - (int)(playerY / WALLSIZE) *
-                               WALLSIZE); // valeur négative, on doit y ajouter
-                                          // wallsize si on regarde vers le haut
+    // valeur négative, on doit y ajouter wallsize si on regarde vers le haut
+    yNearest = -(playerY - (int)(playerY / WALLSIZE) * WALLSIZE);
+
     if (!lookUp(playerPos)) {
       yNearest += WALLSIZE;
     }
@@ -108,7 +108,7 @@ s_Point *Rays::castRay(s_PlayerPos *playerPos) {
     // setting rayX & rayY and incrementing until wall:
     rayX = playerX + xNearest;
     rayY = playerY + yNearest;
-    int mapindex = xyToIndex(rayY, rayX);
+    // int mapindex = xyToIndex(rayY, rayX);
 
     for (int i = 0; i < DOF; i++) {
 
@@ -124,7 +124,7 @@ s_Point *Rays::castRay(s_PlayerPos *playerPos) {
       }
 
       if (map[xyToIndex(iy, ix)] == 1) {
-        horizontal = true;
+        // horizontal = true;
         // window->renderLine(&upColors, playerPos->x, playerPos->y, rayX,
         // rayY);
         break;
@@ -168,7 +168,7 @@ s_Point *Rays::castRay(s_PlayerPos *playerPos) {
 
       else if (map[xyToIndex(iy, ix)] == 1) {
 
-        vertical = true;
+        // vertical = true;
         // window->renderLine(&downColors, playerPos->x, playerPos->y, rayX,
         // rayY);
         break;
@@ -180,7 +180,8 @@ s_Point *Rays::castRay(s_PlayerPos *playerPos) {
     vDist = getLength(playerPos);
   }
 
-  s_Point *point;
+  s_Point p = {};
+  s_Point *point = &p;
 
   /* COMPARAISON */
   if (hDist < vDist) {
@@ -201,4 +202,29 @@ void Rays::drawRay(s_PlayerPos *playerPos) {
   s_Point *point;
   point = castRay(playerPos);
   window->renderLine(&blue, playerPos->x, playerPos->y, point->x, point->y);
+}
+
+void Rays::drawRays(s_PlayerPos *playerPos) {
+  float init_angle = playerPos->angle;
+  int nb_rays = 50;
+  float inc = (PI / 2) / nb_rays;
+  float ang;
+
+  printf("\n\t *** Cone ***\n");
+  for (float i = init_angle - PI / 4; i < init_angle + PI / 4; i += inc) {
+    ang = i;
+    if (i > (2 * PI)) {
+      ang = i - (2 * PI);
+    }
+    if (i < 0) {
+      ang = i + (2 * PI);
+    }
+    playerPos->angle = ang;
+    drawRay(playerPos);
+    printf("\n#  %f", ang);
+  }
+  playerPos->angle = init_angle;
+  s_Point *point;
+  point = castRay(playerPos);
+  window->renderLine(&upColors, playerPos->x, playerPos->y, point->x, point->y);
 }

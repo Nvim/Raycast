@@ -84,7 +84,7 @@ int main(int argc, char **argv) {
       map.drawMap();
       player.drawPlayer(&window, &playerSprite, &playerColors);
       player.getPos(&playerPos);
-      ray.drawRay(&playerPos);
+      ray.drawRays(&playerPos);
       window.display();
     }
   }
