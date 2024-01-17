@@ -56,25 +56,6 @@ Ray::Ray(RenderWindow *p_window) {
 
 // uses playerpos & rayX/Y => no args ?
 void Ray::calculateLength(s_PlayerPos *playerPos) {
-  // float x_x, x_y; // point arbitraire pour pythagore
-  // float px, xr;
-  //
-  // x_x = rayX;
-  // x_y = playerPos->y;
-  //
-  // if (x_x > playerPos->x) {
-  //   px = x_x - playerPos->x;
-  // } else {
-  //   px = playerPos->x - x_x;
-  // }
-  //
-  // if (x_y > playerPos->y) {
-  //   xr = x_y - playerPos->y;
-  // } else {
-  //   xr = playerPos->y - x_y;
-  // }
-  //
-  // length = sqrt((px * px) + (xr * xr));
   float playerX = playerPos->x;
   float playerY = playerPos->y;
   float lengthX, lengthY;
