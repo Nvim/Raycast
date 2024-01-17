@@ -44,7 +44,7 @@ void Player::rotatePlayer(int direction) {
     playerDeltaX = cos(playerAngle) * 5;
     playerDeltaY = sin(playerAngle) * 5;
   }
-  std::cout << "Angle: " << playerAngle << std::endl;
+  // std::cout << "Angle: " << playerAngle << std::endl;
 }
 
 void Player::drawPlayer(RenderWindow *window, SDL_Rect *playerSprite,

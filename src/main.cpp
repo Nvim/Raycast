@@ -1,6 +1,7 @@
+#include "../include/Engine.hpp"
 #include "../include/Map.hpp"
 #include "../include/Player.hpp"
-#include "../include/Rays.hpp"
+#include "../include/Ray.hpp"
 #include "../include/RenderWindow.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
@@ -21,10 +22,12 @@ int main(int argc, char **argv) {
 
   s_Color mapColors = {200, 200, 200, 255};
 
-  RenderWindow window("GAME", 800, 600);
+  RenderWindow window("GAME", WINDOW_WIDTH, WINDOW_HEIGHT);
   Map map(&window, &mapColors, WALLSIZE);
 
   Player player(float(INIT_X + 2 * WALLSIZE), float(INIT_Y + 2 * WALLSIZE));
+
+  Engine engine(&window);
 
   SDL_Event event;
   bool gameRunning = true;
@@ -36,14 +39,14 @@ int main(int argc, char **argv) {
   s_PlayerPos playerPos;
   player.getPos(&playerPos);
 
-  Rays ray(&window);
+  Ray ray(&window);
 
   /****************************************************************************************************/
 
   window.clear();
   map.drawMap();
   player.drawPlayer(&window, &playerSprite, &playerColors);
-  ray.drawRay(&playerPos);
+  engine.renderScene(&playerPos);
   window.display();
 
   while (gameRunning) {
@@ -84,7 +87,7 @@ int main(int argc, char **argv) {
       map.drawMap();
       player.drawPlayer(&window, &playerSprite, &playerColors);
       player.getPos(&playerPos);
-      ray.drawRays(&playerPos);
+      engine.renderScene(&playerPos);
       window.display();
     }
   }
